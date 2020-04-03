@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.recette.exo.models.IngredientModel;
 import com.recette.exo.models.RecetteModel;
 import com.recette.exo.services.RecetteService;
 
@@ -59,6 +60,13 @@ public class RecetteController {
 	}
 	@GetMapping("duree/plage/{plage}")
 	public List<RecetteModel> findAllByDureeBetween(@PathVariable String plage) {
-		return this.service.findAllByDureeBetween(plage);
+		return this.service.findAllByDureeBetween(plage);	
 	}
+	
+	@GetMapping("{id}/ingredients/{idI}")
+	public RecetteModel findByIdRI(@PathVariable String id, String idI) {
+		return this.service.addIngredient(id, idI);
+		
+	}
+	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
@@ -20,6 +21,10 @@ public class RecetteModel {
 	private String dificulte; 
 	
 	private List<EtapeModel> etapesASuivre = new ArrayList<EtapeModel>();
+	
+	@DBRef
+	private List<IngredientModel> ingredients = new ArrayList<IngredientModel>();
+	
 	
 	
 }

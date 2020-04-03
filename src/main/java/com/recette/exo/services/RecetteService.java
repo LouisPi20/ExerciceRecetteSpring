@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.recette.exo.models.IngredientModel;
 import com.recette.exo.models.RecetteModel;
 import com.recette.exo.repositories.RecetteRepository;
 
@@ -16,6 +17,9 @@ public class RecetteService {
 	
 	@Autowired
 	private RecetteRepository repo;
+	
+	@Autowired
+	private IngredientService serviceIngredient;
 	
 	public List<RecetteModel> findAll(){
 		return this.repo.findAll();	
@@ -56,6 +60,13 @@ public class RecetteService {
 	    if (duree.equals("LONG"))
 	        return this.repo.findAllByDureeBetween(60,2_000);
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duree invalide");	
+	}
+
+	public RecetteModel addIngredient(String id, String idI) {
+		RecetteModel recette = this.findById(id);
+		IngredientModel ingredient = this.serviceIngredient.findById(idI);
+		recette.getIngredients().add(ingredient);
+		return this.save(recette);
 	}
 	
 }
