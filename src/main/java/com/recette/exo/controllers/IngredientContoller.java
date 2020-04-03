@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.recette.exo.models.IngredientModel;
+import com.recette.exo.models.RecetteModel;
 import com.recette.exo.services.IngredientService;
 
 @RestController
@@ -37,4 +38,9 @@ public class IngredientContoller {
 		return this.service.findById(id);
 	}
 
+	@GetMapping("recettes/{id}")
+	public List<RecetteModel> findByIngredient(@PathVariable String id) {
+		return this.service.findByIngredient(id);
+		
+	}
 }

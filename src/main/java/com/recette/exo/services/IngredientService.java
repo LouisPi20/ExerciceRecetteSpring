@@ -9,17 +9,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.recette.exo.models.IngredientModel;
+import com.recette.exo.models.RecetteModel;
 import com.recette.exo.repositories.IngredientRepository;
 
 @Service
 public class IngredientService {
-	
+
 	@Autowired
 	private IngredientRepository repo;
-	
+
+	@Autowired
+	private RecetteService serviceRecette;
+
 	public List<IngredientModel> findAll() {
 		return this.repo.findAll();
-		}
+	}
 
 	public IngredientModel save(IngredientModel ingredient) {
 		return this.repo.save(ingredient);
@@ -27,10 +31,16 @@ public class IngredientService {
 
 	public IngredientModel findById(String id) {
 		Optional<IngredientModel> optional = this.repo.findById(id);
-		if (optional.isPresent()) return optional.get();
+		if (optional.isPresent())
+			return optional.get();
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "VIDE");
-		
+
 	}
-	
+
+	public List<RecetteModel> findByIngredient(String id) {
+		IngredientModel ingredient = this.findById(id);
+		return this.serviceRecette.findAllByIngredients(ingredient);
+
+	}
 
 }

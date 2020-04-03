@@ -8,34 +8,36 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.recette.exo.models.EtapeModel;
 import com.recette.exo.models.IngredientModel;
 import com.recette.exo.models.RecetteModel;
 import com.recette.exo.repositories.RecetteRepository;
 
 @Service
 public class RecetteService {
-	
+
 	@Autowired
 	private RecetteRepository repo;
-	
+
 	@Autowired
 	private IngredientService serviceIngredient;
-	
-	public List<RecetteModel> findAll(){
-		return this.repo.findAll();	
+
+	public List<RecetteModel> findAll() {
+		return this.repo.findAll();
 	}
-	
+
 	public RecetteModel save(RecetteModel recette) {
 		return this.repo.save(recette);
 	}
 
 	public RecetteModel findById(String id) {
 		Optional<RecetteModel> optional = this.repo.findById(id);
-		if (optional.isPresent()) return optional.get();
+		if (optional.isPresent())
+			return optional.get();
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "VIDE");
 	}
-	
-	public List<RecetteModel> findAllByNom(String nom){
+
+	public List<RecetteModel> findAllByNom(String nom) {
 		return this.repo.findAllByNom(nom);
 	}
 
@@ -45,21 +47,21 @@ public class RecetteService {
 
 	public List<RecetteModel> findAllByDificulte(String dificulte) {
 		return this.repo.findAllByDificulte(dificulte);
-		
+
 	}
-	
-	public List<RecetteModel> findAllByDureeBetween(long min, long max){
+
+	public List<RecetteModel> findAllByDureeBetween(long min, long max) {
 		return this.repo.findAllByDureeBetween(min, max);
 	}
 
-	public List<RecetteModel> findAllByDureeBetween(String duree){
-	    if (duree.equals("RAPIDE"))
-	        return this.repo.findAllByDureeBetween(0,20);
-	    if (duree.equals("NORMAL"))
-	        return this.repo.findAllByDureeBetween(20,60);
-	    if (duree.equals("LONG"))
-	        return this.repo.findAllByDureeBetween(60,2_000);
-		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duree invalide");	
+	public List<RecetteModel> findAllByDureeBetween(String duree) {
+		if (duree.equals("RAPIDE"))
+			return this.repo.findAllByDureeBetween(0, 20);
+		if (duree.equals("NORMAL"))
+			return this.repo.findAllByDureeBetween(20, 60);
+		if (duree.equals("LONG"))
+			return this.repo.findAllByDureeBetween(60, 2_000);
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duree invalide");
 	}
 
 	public RecetteModel addIngredient(String id, String idI) {
@@ -68,5 +70,13 @@ public class RecetteService {
 		recette.getIngredients().add(ingredient);
 		return this.save(recette);
 	}
-	
+
+	public RecetteModel addEtapes(String id, EtapeModel etapes) {
+		RecetteModel recetteEtape = this.findById(id);
+		recetteEtape.getEtapesASuivre().add(etapes);
+		return this.save(recetteEtape);
+	}
+	public List<RecetteModel> findAllByIngredients(IngredientModel ingredients) {
+		return this.repo.findAllByIngredients(ingredients);
+	}
 }
