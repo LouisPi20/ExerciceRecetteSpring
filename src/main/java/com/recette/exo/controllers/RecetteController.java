@@ -52,4 +52,13 @@ public class RecetteController {
 	public List<RecetteModel> findAllByDificulte(@PathVariable String dificulte){
 		return this.service.findAllByDificulte(dificulte);
 	}
+	
+	@GetMapping("duree/min/{min}/max/{max}")
+	public List<RecetteModel> findAllByDureeBetween(@PathVariable long min, long max) {
+		return this.service.findAllByDureeBetween(min, max);
+	}
+	@GetMapping("duree/plage/{plage}")
+	public List<RecetteModel> findAllByDureeBetween(@PathVariable String plage) {
+		return this.service.findAllByDureeBetween(plage);
+	}
 }

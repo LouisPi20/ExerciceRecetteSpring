@@ -11,5 +11,7 @@ public interface RecetteRepository extends MongoRepository <RecetteModel, String
 	public List<RecetteModel> findAllByNom(String nom);
 	public List<RecetteModel> findAllByDuree(long duree);
 	public List<RecetteModel> findAllByDificulte(String dificulte);
+	public List<RecetteModel> findAllByDureeBetween(long min, long max);
+	
 		
 }
